@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from pudb import set_trace
+import argparse
 
 
 # idiom.ml imports
@@ -104,7 +105,7 @@ def prepare_spam_dataset(df, tokenizer, max_length):
     return np.array(input_ids_list), np.array(token_type_ids_list), np.array(attention_mask_list), np.array(label_list).reshape(-1, 1)
 
 
-def run():
+def run(args):
     # Model takes 128 tokens as input
     MAX_LEN = 128
 
@@ -118,9 +119,10 @@ def run():
     vocab_file = "./examples/browser-bert/ml/vocab.txt"
     tokenizer = BertTokenizerFast(vocab_file)
 
-    recipe = IdiomRecipe()
-    dft_model = setup_for_evaluation(model, finetuning_method="dft",
-                                   recipe=recipe)
+    if not args.skip_idiom_api:
+        # recipe = IdiomRecipe()
+        dft_model = setup_for_evaluation(model, finetuning_method="dft")
+                                   
 
     # set_trace()
 
@@ -157,6 +159,12 @@ def run():
                    
     )
 
+
+parser = argparse.ArgumentParser()    
+parser.add_argument('-s', '--skip-idiom-api', action='store_true', 
+                    help="skip the idiom api where it crashes")
+args = parser.parse_args()
 # set_trace()
+
 if __name__ == "__main__":
-    run()
+    run(args)
