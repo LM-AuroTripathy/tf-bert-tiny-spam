@@ -1,5 +1,7 @@
 # tf-bert-tiny-spam
 
+Original project at https://github.com/alexander-fischer/browser-bert
+
 Running with idiom-ml APIs
 
 # Browser BERT
